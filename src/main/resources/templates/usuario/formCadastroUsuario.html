@@ -23,42 +23,47 @@
 	<div class="nav-wrapper">
 		<a href="/" class="brand-logo">EventosApp</a>
 		<ul id="nav-mobile" class="right hide-on-med-and-down">
-			<li><a href="/cadastrarEvento"
-				class="waves-effect waves-light btn"><i
-					class="material-icons left">add_circle_outline</i>Cadastrar Evento</a>
-			</li>
-			<li><a href="/logout" class="waves-effect waves-light btn">Sair</a></li>
+			<li><a href="/login" class="waves-effect waves-light btn">Entrar</a></li>
 		</ul>
 	</div>
 	</nav> </header>
-	
+
 	<th:block th:include="mensagemValidacao" />
 
-	<table class="container">
-		<thead>
-			<tr>
-				<th>Nome</th>
-				<th>Local</th>
-				<th>Data</th>
-				<th>Horario</th>
-				<th>Deletar</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="evento : ${eventos}">
-				<td><a
-					th:href="${(#mvc.url('EC#detalhesEvento').arg(0, evento.codigo)).build()}">
-						<span th:text="${evento.nome}"></span>
-				</a></td>
-				<td><span th:text="${evento.local}"></span></td>
-				<td><span th:text="${evento.data}"></span></td>
-				<td><span th:text="${evento.horario}"></span></td>
-				<td><a class="waves-effect waves-light"
-					th:href="${(#mvc.url('EC#deletarEvento').arg(0, evento.codigo)).build()}"><i
-						class="material-icons left">delete</i></a></td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="container formEvento">
+		<form class="container" method="post">
+			<div class="row">
+				<div class="input-field col s12">
+					Usuário: <input type="text" value="" name="login" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s6">
+					Nome: <input type="text" value="" name="nomeCompleto" />
+				</div>
+				<div class="input-field col s3">
+					Senha: <input type="password" value="" name="senha" />
+				</div>
+				<div class="input-field col s3">
+					Tipo:
+					<!-- <input type="text" value="" name="role" /> -->
+					<select name="role">
+						<option value="ROLE_ADMIN">ADMIN</option>
+						<option value="ROLE_USER">USER</option>
+					</select>
+				</div>
+			</div>
+			<button class="waves-effect waves-light btn" type="submit">Salvar</button>
+		</form>
+	</div>
+
+	<script type="text/javascript">
+		document.addEventListener('DOMContentLoaded', function() {
+			var sel = document.querySelectorAll('select');
+			M.FormSelect.init(sel);
+		});
+	</script>
+
 	<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
 </body>
 </html>

@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,11 +19,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class Usuario implements UserDetails {
 	
 	@Id
+	@NotNull
 	private String login;
-	
+
+	@NotNull
 	private String nomeCompleto;
-	
+
+	@NotNull
 	private String senha;
+	
+	@Transient
+	private String role;
 	
 	@ManyToMany
 	@JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(
@@ -94,6 +102,14 @@ public class Usuario implements UserDetails {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public List<Role> getRoles() {

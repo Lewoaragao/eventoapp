@@ -71,9 +71,19 @@ public class EventoController {
 	}
 	
 	@RequestMapping("/deletarEvento")
-	public String deletarEvento(long codigo) {
+	public String deletarEvento(long codigo, RedirectAttributes attributes) {
 		
 		Evento evento = er.findByCodigo(codigo);
+		
+		Iterable<Convidado> convidados = cr.findByEvento(evento);
+		
+		for (Convidado convidado : convidados) {
+			if(convidado != null) {
+				attributes.addFlashAttribute("mensagem", "Não é possível excluir esse evento, pois existem convidados cadastrados.");
+				return "redirect:/eventos";
+			}
+		}
+		
 		er.delete(evento);
 		
 		return "redirect:/eventos";
